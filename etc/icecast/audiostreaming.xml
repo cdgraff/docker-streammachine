@@ -1,6 +1,6 @@
 <icecast>
     <location>Internet</location>
-    <admin>soporte@guayoyohost.com</admin>
+    <admin>admin support</admin>
 
     <limits>
         <clients>999</clients>
