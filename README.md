@@ -1,6 +1,6 @@
-# Icecast-kh Dockerfile Example
+# StreamMachine Dockerfile Example
 
-This repository contains a Dockerfile example to build a Docker Image with Icecast-kh version 2.4.0
+This repository contains a Dockerfile example to build a Docker Image with StreamMachine
 
 ## Base Docker Image
 
@@ -10,13 +10,13 @@ This repository contains a Dockerfile example to build a Docker Image with Iceca
 
 ### Build
 
-To create the image zokeber/icecast-kh-example, clone this repository and execute the following command on the docker-icecast-kh-example folder:
+To create the image mediainbox/StreamMachine, clone this repository and execute the following command on the docker-icecast-kh-example folder:
 
-`docker build -t zokeber/icecast-kh-example:latest .`
+`docker build -t mediainbox/StreamMachine:latest .`
 
 Another alternatively, you can build an image directly from Github:
 
-`docker build -t="zokeber/icecast-kh:latest" github.com/zokeber/docker-icecast-kh-example`
+`docker build -t="mediainbox/StreamMachine:latest" github.com/mediainbox/docker-streammachine`
 
 
 ### Create and running a container
@@ -24,13 +24,13 @@ Another alternatively, you can build an image directly from Github:
 **Create container:**
 
 ```
-docker create -it --name container-icecast-kh -h container-icecast-kh zokeber/icecast-kh-example
+docker create -it -m="512m" -p 0.0.0.0:8000:8000-8020:8020 --name StreamMachine-master -h StreamMachine-master mediainbox/StreamMachine:latest
 ```
 
 **Start container:**
 
 ```
-docker start container-icecast-kh
+docker start StreamMachine-master
 ```
 
 
@@ -38,9 +38,8 @@ docker start container-icecast-kh
 
 **Bash:**
 
-`docker exec -it container-icecast-kh bash`
+`docker exec -it StreamMachine-master bash`
 
-**Url to icecast webadmin**
+**Url to StreamMachine API**
 
-`http://127.0.0.1:8000`
-
+`http://DOCKER-IP:8010`
