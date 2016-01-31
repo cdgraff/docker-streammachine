@@ -20,8 +20,6 @@ FROM ubuntu:14.04
 # Maintener
 MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
 
-ENV ROLE=master
-
 # Change localtime
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
