@@ -1,17 +1,17 @@
 # Build:
-# docker build --rm -t mediainbox/streammachine:master .
+# docker build --rm -t mediainbox/streammachine:slave .
 #
 # Create:
-# docker create -it -m="512m" -p 8000-8020:8000-8020 --name StreamMachine-master -h StreamMachine-master mediainbox/streammachine:master
+# docker create -it -m="512m" -p 80 --name StreamMachine-slave -h StreamMachine-slave --link=StreamMachine-master mediainbox/streammachine:slave
 #
 # Start:
-# docker start StreamMachine-master
+# docker start StreamMachine-slave
 #
 # Connect with bash:
-# docker logs StreamMachine-master
+# docker logs StreamMachine-slave
 #
 # Connect URL:
-# http://127.0.0.1:8020/
+# http://127.0.0.1:80/
 
 
 # Pull base image
@@ -43,7 +43,7 @@ RUN cd /srv/StreamMachine; npm install
 
 # Copy config file
 RUN mkdir -p /srv/StreamMachine/config
-ADD config/master.json /srv/StreamMachine/config/
+ADD config/slave.json /srv/StreamMachine/config/
 
 # Mountable directories
 VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
@@ -52,8 +52,8 @@ VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
 WORKDIR /srv/StreamMachine
 
 # Endpoint
-CMD ["--config", "/srv/StreamMachine/config/master.json"]
+CMD ["--config", "/srv/StreamMachine/config/slave.json"]
 ENTRYPOINT ["/srv/StreamMachine/streammachine-cmd"]
 
 # Expose ports.
-EXPOSE 8000-8020
+EXPOSE 80
