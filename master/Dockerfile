@@ -1,8 +1,8 @@
 # Build:
-# docker build --rm -t mediainbox/streammachine:latest .
+# docker build --rm -t mediainbox/streammachine:master .
 #
 # Create:
-# docker create -it -m="512m" -p 0.0.0.0:8000-8020:8000-8020 --name StreamMachine-master -h StreamMachine-master mediainbox/streammachine:latest
+# docker create -it -m="512m" -p 8000-8020:8000-8020 --name StreamMachine-master -h StreamMachine-master mediainbox/streammachine:master
 #
 # Start:
 # docker start --net=host StreamMachine-master
@@ -45,7 +45,6 @@ RUN cd /srv/StreamMachine; npm install
 
 # Copy config file
 ADD config/master.json /srv/StreamMachine/config
-ADD config/slave.json /srv/StreamMachine/config
 
 # Mountable directories
 VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
