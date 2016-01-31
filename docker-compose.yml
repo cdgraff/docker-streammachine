@@ -1,0 +1,16 @@
+---
+StreamMachine-master:
+  build: master/
+  ports:
+    - "8000-8010:8000-8010"
+  links:
+    - redis
+StreamMachine-slave:
+  build: slave/
+  ports:
+    - "80:80"
+  links:
+    - redis
+    - StreamMachine-master
+redis:
+  image: redis
