@@ -2,7 +2,7 @@
 # docker build --rm -t mediainbox/streammachine:slave .
 #
 # Create:
-# docker create -it -m="512m" -p 80 --name StreamMachine-slave -h StreamMachine-slave --link=StreamMachine-master mediainbox/streammachine:slave
+# docker create -it -m="512m" -p 80:80 --name StreamMachine-slave -h StreamMachine-slave --link=StreamMachine-master mediainbox/streammachine:slave
 #
 # Start:
 # docker start StreamMachine-slave
