@@ -43,7 +43,7 @@ RUN cd /srv/StreamMachine; npm install
 
 # Copy config file
 RUN mkdir -p /srv/StreamMachine/config
-ADD config/master.json /srv/StreamMachine/config
+ADD config/master.json /srv/StreamMachine
 
 # Mountable directories
 VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
