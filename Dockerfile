@@ -1,17 +1,17 @@
 # Build:
-# docker build -t mediainbox/streammachine:latest .
+# docker build --rm -t mediainbox/streammachine:latest .
 #
 # Create:
-# docker create -it -m="512m" -p 0.0.0.0:8000:8000-8020:8020 --name StreamMachine-master -h StreamMachine-master mediainbox/streammachine:latest
+# docker create -it -m="512m" -p 0.0.0.0:8000-8020:8000-8020 --name StreamMachine-master -h StreamMachine-master mediainbox/streammachine:latest
 #
 # Start:
-# docker start StreamMachine-master
+# docker start --net=host StreamMachine-master
 #
 # Connect with bash:
-# docker exec -it StreamMachine-master bash
+# docker logs StreamMachine-master
 #
 # Connect URL:
-# http://127.0.0.1:8000/
+# http://127.0.0.1:8020/
 
 
 # Pull base image
@@ -19,6 +19,8 @@ FROM ubuntu:14.04
 
 # Maintener
 MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
+
+ENV ROLE=master
 
 # Change localtime
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
@@ -28,8 +30,14 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN mkdir -p /var/log/StreamMachine
 
 # Install dependencies
-RUN apt-get update -y ; apt-get upgrade -y
-RUN apt-get install -y nodejs npm git nodejs-legacy wget
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    nodejs \
+    npm \
+    git \
+    nodejs-legacy \
+    wget \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
 
 #Download and Install
 RUN cd /srv; git clone https://github.com/StreamMachine/StreamMachine.git
@@ -46,8 +54,8 @@ VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
 WORKDIR /srv/StreamMachine
 
 # Endpoint
+CMD ["--config", "/srv/StreamMachine/config/master.json"]
 ENTRYPOINT ["/srv/StreamMachine/streammachine-cmd"]
-CMD ["--config", "/srv/StreamMachine/config/${ROLE}.json"]
 
 # Expose ports.
 EXPOSE 8000-8020

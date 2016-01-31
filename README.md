@@ -4,19 +4,19 @@ This repository contains a Dockerfile example to build a Docker Image with Strea
 
 ## Base Docker Image
 
-* [zokeber/icecast-kh](https://registry.hub.docker.com/u/zokeber/icecast-kh/)
+* [ubuntu:14.04](https://registry.hub.docker.com/u/)
 
 ## Usage
 
 ### Build
 
-To create the image mediainbox/StreamMachine, clone this repository and execute the following command on the docker-icecast-kh-example folder:
+To create the image mediainbox/StreamMachine, clone this repository and execute the following command on the docker-streammachine folder:
 
-`docker build -t mediainbox/StreamMachine:latest .`
+`docker build --rm -t mediainbox/streammachine:latest .`
 
 Another alternatively, you can build an image directly from Github:
 
-`docker build -t="mediainbox/StreamMachine:latest" github.com/mediainbox/docker-streammachine`
+`docker build -t="mediainbox/streammachine:latest" github.com/mediainbox/docker-streammachine`
 
 
 ### Create and running a container
@@ -24,7 +24,7 @@ Another alternatively, you can build an image directly from Github:
 **Create container:**
 
 ```
-docker create -it -m="512m" -p 0.0.0.0:8000:8000-8020:8020 --name StreamMachine-master -h StreamMachine-master mediainbox/StreamMachine:latest
+docker create -it -m="512m" -p 0.0.0.0:8000-8020:8000-8020 --name StreamMachine-master -h StreamMachine-master mediainbox/streammachine:latest
 ```
 
 **Start container:**
