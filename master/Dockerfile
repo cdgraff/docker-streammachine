@@ -26,7 +26,6 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
 # Create base directories
 RUN mkdir -p /var/log/StreamMachine
-RUN mkdir -p /srv/StreamMachine/config
 
 # Install dependencies
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -43,6 +42,7 @@ RUN cd /srv; git clone https://github.com/StreamMachine/StreamMachine.git
 RUN cd /srv/StreamMachine; npm install
 
 # Copy config file
+RUN mkdir -p /srv/StreamMachine/config
 ADD config/master.json /srv/StreamMachine/config
 
 # Mountable directories
