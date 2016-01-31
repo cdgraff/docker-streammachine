@@ -42,7 +42,7 @@ RUN cd /srv; git clone https://github.com/StreamMachine/StreamMachine.git
 RUN cd /srv/StreamMachine; npm install
 
 # Copy config file
-ADD config/master.json /srv/StreamMachine/config
+ADD master/config/master.json /srv/StreamMachine/config
 
 # Mountable directories
 VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
