@@ -15,7 +15,7 @@
 
 
 # Pull base image
-FROM ubuntu:14.04
+FROM cellofellow/ffmpeg
 
 # Maintener
 MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
@@ -37,9 +37,13 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
-#Download and Install
-RUN cd /srv; git clone https://github.com/StreamMachine/StreamMachine.git
-RUN cd /srv/StreamMachine; npm install
+#Download and Install WaveForm
+RUN cd /srv; git clone https://github.com/StreamMachine/sm-waveform.git
+RUN cd /srv/sm-waveform; npm install
+
+#Download and Install Archive
+RUN cd /srv; git clone https://github.com/StreamMachine/sm-archiver.git
+RUN cd /srv/sm-archiver; npm install
 
 # Copy config file
 RUN mkdir -p /srv/StreamMachine/config
