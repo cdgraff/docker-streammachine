@@ -15,7 +15,7 @@
 
 
 # Pull base image
-FROM ubuntu:14.04
+FROM cdgraff/ffmpeg
 
 # Maintener
 MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
@@ -28,11 +28,13 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN mkdir -p /var/log/StreamMachine
 
 # Install dependencies
+RUN DEBIAN_FRONTEND=noninteractive apt-get update ; DEBIAN_FRONTEND=noninteractive apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs git wget \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
+
 
 #Download and Install
 RUN cd /srv; git clone https://github.com/StreamMachine/StreamMachine.git
