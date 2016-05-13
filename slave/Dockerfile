@@ -28,12 +28,9 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN mkdir -p /var/log/StreamMachine
 
 # Install dependencies
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    nodejs \
-    npm \
-    git \
-    nodejs-legacy \
-    wget \
+RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs git wget \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
