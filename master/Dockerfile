@@ -14,8 +14,8 @@
 # http://127.0.0.1:8020/
 
 
-# Pull base image
-FROM ubuntu:14.04
+# Pull base image, we use ffmpeg image to allow Transcode
+FROM cdgraff/ffmpeg
 
 # Maintener
 MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
