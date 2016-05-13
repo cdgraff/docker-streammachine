@@ -14,26 +14,20 @@
 # http://127.0.0.1:8020/
 
 
-# Pull base image
-FROM cellofellow/ffmpeg
-
-# Maintener
-MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
+FROM cdgraff/ffmpeg
 
 # Change localtime
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
-
 
 # Create base directories
 RUN mkdir -p /var/log/StreamMachine
 
 # Install dependencies
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    nodejs \
-    npm \
-    git \
-    nodejs-legacy \
-    wget \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl software-properties-common git wget
+RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:andrewrk/libgroove
+RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs libgroove-dev\
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
@@ -45,19 +39,11 @@ RUN cd /srv/sm-waveform; npm install
 RUN cd /srv; git clone https://github.com/StreamMachine/sm-archiver.git
 RUN cd /srv/sm-archiver; npm install
 
-# Copy config file
-RUN mkdir -p /srv/StreamMachine/config
-ADD config/master.json /srv/StreamMachine/config/
-
-# Mountable directories
-VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
+# Install PM2 to manage process
+RUN npm install -g pm2
 
 # Working directory
 WORKDIR /srv/StreamMachine
 
-# Endpoint
-CMD ["--config", "/srv/StreamMachine/config/master.json"]
-ENTRYPOINT ["/srv/StreamMachine/streammachine-cmd"]
-
 # Expose ports.
-EXPOSE 8000-8020
+EXPOSE 3000 8000 9000
