@@ -23,6 +23,7 @@ RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 RUN mkdir -p /var/log/StreamMachine
 
 # Install dependencies
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -y
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl software-properties-common git wget
 RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:andrewrk/libgroove
 RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
