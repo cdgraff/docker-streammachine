@@ -36,7 +36,7 @@ RUN cd /srv; git clone https://github.com/StreamMachine/sm-waveform.git
 RUN cd /srv/sm-waveform; npm install
 
 #Download and Install Archive
-RUN cd /srv; git clone https://github.com/StreamMachine/sm-archiver.git
+RUN cd /srv; git clone https://github.com/mediainbox/sm-archiver.git
 RUN cd /srv/sm-archiver; npm install
 
 # Install PM2 to manage process
