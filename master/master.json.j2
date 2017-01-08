@@ -1,0 +1,23 @@
+{
+	"mode": "master",
+	"source_port": "{{ SOURCE_PORT|default('8020') }}",
+	"master": {
+		"port": "{{ MASTER_PORT|default('8020') }}",
+		"password": "{{ MASTER_PASS|default('m3d141nb0x') }}"
+	},
+	"log": {
+		"stdout": true,
+		"level": "debug"
+	},
+	"streams": {
+		"{{ STREAM_NAME }}": {
+			"key": "{{ STREAM_NAME }}",
+			"root_route": true,
+			"format": "{{ STREAM_FORMAT|default('mp3') }}",
+			"seconds": "{{ STREAM_SECONDS|default('900') }}",
+			"metaTitle": "{{ STREAM_NAME }}",
+			"host": "mediainbox.net",
+			"source_password": "{{ STREAM_SOURCE_PASS|default(STREAM_NAME) }}"
+		}
+	}
+}

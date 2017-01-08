@@ -13,9 +13,9 @@
 # Connect URL:
 # http://127.0.0.1:8020/
 
+# Jinja2 Template idea from: https://tryolabs.com/blog/2015/03/26/configurable-docker-containers-for-multiple-environments/
 
-# Pull base image, we use ffmpeg image to allow Transcode
-FROM cdgraff/ffmpeg
+FROM node:6-slim
 
 # Maintener
 MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
@@ -23,35 +23,17 @@ MAINTAINER Alejandro Ferrari <aferrari@mediainbox.net>
 # Change localtime
 RUN rm /etc/localtime && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime
 
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y git python python-dev python-setuptools build-essential
+RUN easy_install j2cli
 
-# Create base directories
-RUN mkdir -p /var/log/StreamMachine
+RUN git clone https://github.com/mediainbox/StreamMachine.git
+RUN cd StreamMachine && npm install
+COPY master.json.j2 /config/
+COPY docker-entrypoint.sh /
+CMD chmod 755 /docker-entrypoint.sh
 
-# Install dependencies
-RUN DEBIAN_FRONTEND=noninteractive apt-get update ; DEBIAN_FRONTEND=noninteractive apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+VOLUME "/config"
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs git wget \
-&& apt-get clean \
-&& rm -rf /var/lib/apt/lists/*
-
-#Download and Install
-RUN cd /srv; git clone https://github.com/StreamMachine/StreamMachine.git
-RUN cd /srv/StreamMachine; npm install
-
-# Copy config file
-RUN mkdir -p /srv/StreamMachine/config
-ADD config/master.json /srv/StreamMachine/config/
-
-# Mountable directories
-VOLUME ["/var/log/StreamMachine", "/srv/StreamMachine"]
-
-# Working directory
-WORKDIR /srv/StreamMachine
-
-# Endpoint
-CMD ["--config", "/srv/StreamMachine/config/master.json"]
-ENTRYPOINT ["/srv/StreamMachine/streammachine-cmd"]
-
-# Expose ports.
-EXPOSE 8000-8020
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["StreamMachine/streammachine-cmd", "--config", "/config/master.json"]
