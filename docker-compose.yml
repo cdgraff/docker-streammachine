@@ -1,23 +1,8 @@
 ---
-streammachine-master:
-  build: master/
-  ports:
-    - "8000-8020:8000-8020"
-  links:
-    - redis
-streammachine-slave:
-  build: slave/
-  ports:
-    - "80:80"
-  links:
-    - redis
-    - streammachine-master
-redis:
-  image: redis
-
-
 version: '2.0'
 services:
   master:
     build: master/
-    image: "webapp:${TAG}"
+    image: "mediainbox/streammachine:master"
+  environment:
+    - STREAM_NAME=cadena3.mp3
