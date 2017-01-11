@@ -6,3 +6,8 @@ services:
     image: "mediainbox/streammachine:master"
   environment:
     - STREAM_NAME=cadena3.mp3
+    - SOURCE_PORT=8000
+    - MASTER_PORT=8020
+    - MASTER_PASS=123qwe
+    - STREAM_FORMAT=mp3
+    - STREAM_SECONDS=900

@@ -17,6 +17,7 @@
 			"seconds": "{{ STREAM_SECONDS|default('900') }}",
 			"metaTitle": "{{ STREAM_NAME }}",
 			"host": "mediainbox.net",
+			"fallback": "{{ STREAM_FALLBACK|default('') }}",
 			"source_password": "{{ STREAM_SOURCE_PASS|default(STREAM_NAME) }}"
 		}
 	}
